@@ -28,6 +28,9 @@ const app = express();
 const server = http.createServer(app);
 app.use(cors({ origin: corsOrigin }));
 app.use(express.json({ limit: '32kb' }));
+app.get('/', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'unme_online.html'));
+});
 const io = new Server(server, { cors: { origin: corsOrigin } });
 
 async function initDb() {

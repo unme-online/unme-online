@@ -1,35 +1,432 @@
+
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#075e54"><title>U N M E Online</title>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075e54">
+<title>U N M E Online</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#e3ebe8;color:#182b2a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}.app{max-width:520px;height:100dvh;margin:auto;background:#fff;display:flex;flex-direction:column}.head{background:#075e54;color:#fff;padding:18px;font-weight:800;font-size:23px;letter-spacing:3px}.sub{font-size:12px;font-weight:400;letter-spacing:0;opacity:.8;margin-top:3px}.panel{padding:20px;overflow:auto;flex:1}.card{border:1px solid #e1e9e6;border-radius:16px;padding:16px;margin-bottom:14px}.field{width:100%;padding:13px;border:1px solid #d5e1dd;border-radius:10px;margin:6px 0 12px;font-size:15px}.btn{border:0;border-radius:11px;padding:13px 15px;background:#087e70;color:#fff;font-weight:700;font-size:15px;cursor:pointer}.btn.alt{background:#e8f3f0;color:#075e54}.btn:disabled{opacity:.5}.row{display:flex;gap:8px}.row>*{flex:1}.muted{font-size:13px;color:#667874;line-height:1.5}.error{color:#b42318;font-size:13px;white-space:pre-wrap}.person{padding:14px;border-bottom:1px solid #edf1ef;display:flex;gap:12px;align-items:center;cursor:pointer}.avatar{width:44px;height:44px;border-radius:50%;background:#d9fdd3;display:grid;place-items:center;font-weight:800;color:#075e54}.grow{flex:1;min-width:0}.username{font-weight:750}.tiny{font-size:12px;color:#6b7c78;margin-top:3px}.chathead{display:flex;align-items:center;gap:10px;background:#087e70;color:#fff;padding:10px}.messages{flex:1;overflow:auto;padding:14px;background:#efeae2;display:flex;flex-direction:column;gap:8px}.bubble{max-width:84%;background:#fff;border-radius:12px;padding:10px;overflow-wrap:anywhere;white-space:pre-wrap;align-self:flex-start}.bubble.mine{background:#d9fdd3;align-self:flex-end}.stamp{font-size:10px;color:#71807b;text-align:right;margin-top:4px}.compose{display:flex;gap:8px;padding:9px;background:#f5f7f6}.compose input{flex:1;min-width:0;border:1px solid #dce4e1;border-radius:24px;padding:12px;font-size:15px}.hidden{display:none!important}button{cursor:pointer}
-</style></head><body><div class="app">
-<header class="head">U N M E<div class="sub" id="tagline">Chat online · sambungkan server kamu</div></header>
+*{box-sizing:border-box}
+body{margin:0;background:#e3ebe8;color:#182b2a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:520px;height:100dvh;height:100vh;height:100dvh;margin:auto;background:#fff;display:flex;flex-direction:column}
+.head{background:#075e54;color:#fff;padding:18px;font-weight:800;font-size:23px;letter-spacing:3px}
+.sub{font-size:12px;font-weight:400;letter-spacing:0;opacity:.85;margin-top:3px}
+.panel{padding:20px;overflow:auto;flex:1}
+.card{border:1px solid #e1e9e6;border-radius:16px;padding:16px;margin-bottom:14px}
+.field{width:100%;padding:13px;border:1px solid #d5e1dd;border-radius:10px;margin:6px 0 12px;font-size:15px}
+.btn{border:0;border-radius:11px;padding:13px 15px;background:#087e70;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.btn.alt{background:#e8f3f0;color:#075e54}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:8px}
+.row>*{flex:1;min-width:0}
+.muted{font-size:13px;color:#667874;line-height:1.5}
+.error{color:#b42318;font-size:13px;white-space:pre-wrap}
+.person{padding:14px;border-bottom:1px solid #edf1ef;display:flex;gap:12px;align-items:center;cursor:pointer}
+.avatar{width:44px;height:44px;flex-shrink:0;border-radius:50%;background:#d9fdd3;display:grid;place-items:center;font-weight:800;color:#075e54}
+.grow{flex:1;min-width:0}
+.username{font-weight:750;overflow-wrap:anywhere}
+.tiny{font-size:12px;color:#6b7c78;margin-top:3px}
+.chathead{display:flex;align-items:center;gap:10px;background:#087e70;color:#fff;padding:10px}
+.messages{flex:1;min-height:0;overflow:auto;padding:14px;background:#efeae2;display:flex;flex-direction:column;gap:8px}
+.bubble{max-width:84%;background:#fff;border-radius:12px;padding:10px;overflow-wrap:anywhere;white-space:pre-wrap;align-self:flex-start}
+.bubble.mine{background:#d9fdd3;align-self:flex-end}
+.stamp{font-size:10px;color:#71807b;text-align:right;margin-top:4px}
+.compose{display:flex;gap:8px;padding:9px;background:#f5f7f6}
+.compose input{flex:1;min-width:0;border:1px solid #dce4e1;border-radius:24px;padding:12px;font-size:15px}
+.hidden{display:none!important}
+button{cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="head">U N M E
+<div class="sub" id="tagline">Chat online · terhubung ke Supabase</div>
+</header>
+
 <section class="panel" id="setup">
-<div class="card"><b>1. Sambungkan server</b><p class="muted">Masukkan URL server Render setelah deploy. Contoh: https://unme-api.onrender.com</p><input id="serverUrl" class="field" placeholder="https://nama-server.onrender.com" autocomplete="url"><button class="btn" style="width:100%" onclick="saveServer()">Simpan URL server</button><div id="serverMsg" class="muted"></div></div>
-<div class="card"><b>2. Daftar atau masuk</b><label class="muted">Username (3–24 karakter)</label><input id="username" class="field" autocomplete="username" placeholder="contoh: cecep_01"><label class="muted">Kata sandi (minimal 8 karakter)</label><input id="password" type="password" class="field" autocomplete="current-password" placeholder="Jangan gunakan kata sandi penting"><div class="row"><button class="btn" onclick="auth('register')">Daftar</button><button class="btn alt" onclick="auth('login')">Masuk</button></div><p id="authMsg" class="error"></p></div>
-<p class="muted">Gunakan kata sandi khusus untuk aplikasi uji coba ini. Jangan masukkan kata sandi email atau akun lain.</p>
-</section>
-<section id="home" class="panel hidden"><div class="row" style="align-items:center;margin-bottom:14px"><div class="grow"><b id="welcome"></b><div class="muted">Pilih pengguna untuk mulai chat.</div></div><button class="btn alt" onclick="refreshUsers()">Muat ulang</button></div><div id="users"></div><p id="homeMsg" class="muted"></p><button class="btn alt" onclick="logout()">Keluar</button></section>
-<section id="chat" class="hidden" style="flex:1;min-height:0;display:flex;flex-direction:column"><header class="chathead"><button class="btn alt" style="padding:8px 12px" onclick="back()">‹</button><div class="grow"><b id="chatTitle"></b><div class="tiny" style="color:#e1f2ed">Pesan online</div></div></header><div id="messages" class="messages"></div><form class="compose" onsubmit="sendMessage(event)"><input id="body" placeholder="Tulis pesan..." maxlength="4000" autocomplete="off"><button class="btn">Kirim</button></form><p id="chatMsg" class="error" style="padding:0 12px"></p></section>
+<div class="card">
+<b>Selamat datang di UNMe</b>
+<p class="muted">Daftar akun baru atau masuk untuk mulai mengobrol.</p>
+<label class="muted">Username (3–24 karakter)</label>
+<input id="username" class="field" maxlength="24" autocomplete="username" placeholder="contoh: cecep_01">
+<label class="muted">Alamat email</label>
+<input id="email" class="field" type="email" autocomplete="email" placeholder="nama@email.com">
+<label class="muted">Kata sandi (minimal 8 karakter)</label>
+<input id="password" class="field" type="password" minlength="8" autocomplete="current-password" placeholder="Buat kata sandi khusus UNMe">
+<div class="row">
+<button class="btn" id="registerBtn" onclick="auth('register')">Daftar</button>
+<button class="btn alt" id="loginBtn" onclick="auth('login')">Masuk</button>
 </div>
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<p id="authMsg" class="error"></p>
+</div>
+<p class="muted">Gunakan email milikmu dan kata sandi khusus UNMe. Jangan gunakan kata sandi akun lain.</p>
+</section>
+
+<section id="home" class="panel hidden">
+<div class="row" style="align-items:center;margin-bottom:14px">
+<div class="grow">
+<b id="welcome"></b>
+<div class="muted">Pilih pengguna untuk mulai chat.</div>
+</div>
+<button class="btn alt" onclick="refreshUsers()">Muat ulang</button>
+</div>
+<div id="users"></div>
+<p id="homeMsg" class="muted"></p>
+<button class="btn alt" onclick="logout()">Keluar</button>
+</section>
+
+<section id="chat" class="hidden" style="flex:1;min-height:0;flex-direction:column">
+<header class="chathead">
+<button class="btn alt" style="padding:8px 12px" onclick="back()">‹</button>
+<div class="grow">
+<b id="chatTitle"></b>
+<div class="tiny" style="color:#e1f2ed">Percakapan pribadi</div>
+</div>
+</header>
+<div id="messages" class="messages"></div>
+<form class="compose" onsubmit="sendMessage(event)">
+<input id="body" placeholder="Tulis pesan..." maxlength="4000" autocomplete="off">
+<button class="btn" id="sendBtn">Kirim</button>
+</form>
+<p id="chatMsg" class="error" style="padding:0 12px"></p>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let base=localStorage.getItem('unmeServerUrl')||'',token='',me=null,socket=null,active=null,users=[];
-const $=id=>document.getElementById(id);
-$('serverUrl').value=base;
-function msg(id,text){$(id).textContent=text||''}
-function show(which){['setup','home','chat'].forEach(x=>$(x).classList.toggle('hidden',x!==which))}
-function saveServer(){let v=$('serverUrl').value.trim().replace(/\/+$/,'');if(!/^https?:\/\/[^ ]+$/i.test(v)){msg('serverMsg','Masukkan URL lengkap, misalnya https://nama-server.onrender.com');return}base=v;localStorage.setItem('unmeServerUrl',base);msg('serverMsg','URL tersimpan. Sekarang daftar atau masuk.');}
-async function api(path,opts={}){if(!base)throw Error('Masukkan URL server terlebih dahulu.');let r=await fetch(base+path,{...opts,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{}),...(opts.headers||{})}});let d=await r.json().catch(()=>({error:'Respons server tidak valid.'}));if(!r.ok)throw Error(d.error||'Permintaan gagal');return d}
-async function auth(kind){try{if(!base)saveServer();if(!base)throw Error('Masukkan URL server.');msg('authMsg','Menghubungkan...');const d=await api('/api/'+kind,{method:'POST',body:JSON.stringify({username:$('username').value.trim(),password:$('password').value})});token=d.token;me=d.user;localStorage.setItem('unmeToken',token);localStorage.setItem('unmeUser',JSON.stringify(me));connectSocket();$('welcome').textContent='Halo, '+me.username+'!';show('home');await refreshUsers();msg('authMsg','')}catch(e){msg('authMsg',e.message)}}
-function connectSocket(){if(socket)socket.disconnect();socket=io(base,{auth:{token}});socket.on('connect_error',e=>msg('homeMsg','Koneksi chat gagal: '+e.message));socket.on('new_message',m=>{if(active&&String(active.id)===String(m.senderId))append(m,false)});socket.on('message_error',d=>msg('chatMsg',d.error));socket.on('message_sent',m=>{if(active&&String(active.id)===String(m.recipientId))append(m,true)})}
-async function refreshUsers(){try{const d=await api('/api/users');users=d.users;$('users').innerHTML=users.map(u=>`<div class="person" onclick="openUser('${String(u.id)}')"><div class="avatar">${esc(u.username.slice(0,1).toUpperCase())}</div><div class="grow"><div class="username">${esc(u.username)}</div><div class="tiny">Ketuk untuk mengirim pesan</div></div><span>›</span></div>`).join('')||'<p class="muted">Belum ada pengguna lain. Daftarkan akun kedua dari browser/perangkat berbeda untuk mencoba chat.</p>';msg('homeMsg','')}catch(e){msg('homeMsg',e.message)}}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function openUser(id){active=users.find(u=>String(u.id)===String(id));if(!active)return;$('chatTitle').textContent=active.username;show('chat');$('messages').innerHTML='';msg('chatMsg','');try{const d=await api('/api/messages/'+id);$('messages').innerHTML='';d.messages.forEach(m=>append(m,String(m.senderId)===String(me.id)));}catch(e){msg('chatMsg',e.message)}}
-function append(m,mine){let el=document.createElement('div');el.className='bubble'+(mine?' mine':'');el.textContent=m.body;let stamp=document.createElement('div');stamp.className='stamp';stamp.textContent=new Date(m.createdAt).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});el.appendChild(stamp);$('messages').appendChild(el);$('messages').scrollTop=$('messages').scrollHeight}
-function sendMessage(e){e.preventDefault();const body=$('body').value.trim();if(!body||!active||!socket)return;socket.emit('private_message',{recipientId:active.id,body});$('body').value='';}
-function back(){active=null;show('home');refreshUsers()}
-function logout(){if(socket)socket.disconnect();token='';me=null;active=null;localStorage.removeItem('unmeToken');localStorage.removeItem('unmeUser');show('setup')}
-async function restore(){const savedToken=localStorage.getItem('unmeToken'),savedUser=localStorage.getItem('unmeUser');if(savedToken&&savedUser&&base){token=savedToken;me=JSON.parse(savedUser);try{await api('/api/users');connectSocket();$('welcome').textContent='Halo, '+me.username+'!';show('home');refreshUsers()}catch{logout()}}}
-restore();
-</script></body></html>
+const SUPABASE_URL = 'https://suspkwnkptwvfvzvmvmu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_qGaResKb3HvDDujWvZPgpA_cqJVc3rx';
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let me = null;
+let active = null;
+let users = [];
+let channel = null;
+let loadingMessages = false;
+
+const $ = id => document.getElementById(id);
+function msg(id, text) { $(id).textContent = text || ''; }
+
+function show(which) {
+  ['setup','home','chat'].forEach(id => $(id).classList.toggle('hidden', id !== which));
+  if (which === 'chat') $('chat').style.display = 'flex';
+  else $('chat').style.display = 'none';
+}
+
+function cleanUsername(value) {
+  return value.trim().toLowerCase();
+}
+
+function validUsername(value) {
+  return /^[a-z0-9_]{3,24}$/.test(value);
+}
+
+function safeError(error) {
+  const text = error?.message || 'Terjadi kesalahan. Coba lagi.';
+  if (/invalid login credentials/i.test(text)) return 'Email atau kata sandi salah.';
+  if (/email not confirmed/i.test(text)) return 'Email belum dikonfirmasi. Periksa kotak masuk emailmu.';
+  if (/user already registered/i.test(text)) return 'Email sudah terdaftar. Silakan masuk.';
+  if (/duplicate key|unique constraint/i.test(text)) return 'Username sudah dipakai. Coba username lain.';
+  if (/row-level security|permission denied/i.test(text)) return 'Akses database ditolak. Kebijakan keamanan Supabase perlu diperiksa.';
+  return text;
+}
+
+async function auth(kind) {
+  const email = $('email').value.trim().toLowerCase();
+  const password = $('password').value;
+  const username = cleanUsername($('username').value);
+
+  msg('authMsg','');
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg('authMsg','Masukkan alamat email yang valid.');
+    return;
+  }
+  if (password.length < 8) {
+    msg('authMsg','Kata sandi harus minimal 8 karakter.');
+    return;
+  }
+  if (kind === 'register' && !validUsername(username)) {
+    msg('authMsg','Username harus 3–24 karakter, hanya huruf kecil, angka, dan garis bawah.');
+    return;
+  }
+
+  $('registerBtn').disabled = true;
+  $('loginBtn').disabled = true;
+  msg('authMsg', kind === 'register' ? 'Membuat akun...' : 'Memeriksa akun...');
+
+  try {
+    let result;
+
+    if (kind === 'register') {
+      result = await db.auth.signUp({
+        email,
+        password,
+        options: { data: { username } }
+      });
+
+      if (result.error) throw result.error;
+
+      if (!result.data.session) {
+        msg('authMsg','Pendaftaran diterima. Periksa email untuk konfirmasi, lalu masuk setelah email dikonfirmasi.');
+        return;
+      }
+
+      me = result.data.user;
+      await ensureProfile(username);
+    } else {
+      result = await db.auth.signInWithPassword({ email, password });
+      if (result.error) throw result.error;
+
+      me = result.data.user;
+      const { data: profile, error } = await db
+        .from('profiles')
+        .select('id,username')
+        .eq('id', me.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!profile) {
+        const savedName = me.user_metadata?.username || email.split('@')[0];
+        await ensureProfile(savedName);
+      }
+    }
+
+    $('password').value = '';
+    $('welcome').textContent = 'Halo, ' + (await getMyUsername()) + '!';
+    show('home');
+    await refreshUsers();
+    subscribeMessages();
+    msg('authMsg','');
+  } catch (error) {
+    msg('authMsg', safeError(error));
+  } finally {
+    $('registerBtn').disabled = false;
+    $('loginBtn').disabled = false;
+  }
+}
+
+async function ensureProfile(username) {
+  const name = cleanUsername(username);
+  const { error } = await db.from('profiles').upsert(
+    { id: me.id, username: name },
+    { onConflict: 'id' }
+  );
+  if (error) throw error;
+}
+
+async function getMyUsername() {
+  const { data, error } = await db.from('profiles')
+    .select('username').eq('id', me.id).maybeSingle();
+  if (error) throw error;
+  return data?.username || me.email?.split('@')[0] || 'Pengguna';
+}
+
+async function refreshUsers() {
+  if (!me) return;
+  msg('homeMsg','Memuat pengguna...');
+
+  try {
+    const { data, error } = await db.from('profiles')
+      .select('id,username')
+      .order('username', { ascending: true });
+
+    if (error) throw error;
+
+    users = (data || []).filter(user => user.id !== me.id);
+    $('users').replaceChildren();
+
+    if (!users.length) {
+      $('users').innerHTML = '<p class="muted">Belum ada pengguna lain. Daftarkan akun kedua menggunakan email berbeda untuk mencoba chat.</p>';
+    } else {
+      users.forEach(user => {
+        const item = document.createElement('div');
+        item.className = 'person';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = (user.username || '?').slice(0,1).toUpperCase();
+
+        const info = document.createElement('div');
+        info.className = 'grow';
+
+        const name = document.createElement('div');
+        name.className = 'username';
+        name.textContent = user.username;
+
+        const hint = document.createElement('div');
+        hint.className = 'tiny';
+        hint.textContent = 'Ketuk untuk mengirim pesan';
+
+        info.append(name, hint);
+        const arrow = document.createElement('span');
+        arrow.textContent = '›';
+        item.append(avatar, info, arrow);
+        item.onclick = () => openUser(user.id);
+        $('users').appendChild(item);
+      });
+    }
+    msg('homeMsg','');
+  } catch (error) {
+    msg('homeMsg', safeError(error));
+  }
+}
+
+async function openUser(id) {
+  active = users.find(user => user.id === id);
+  if (!active) return;
+
+  $('chatTitle').textContent = active.username;
+  $('messages').replaceChildren();
+  msg('chatMsg','');
+  show('chat');
+  await loadMessages();
+}
+
+async function loadMessages() {
+  if (!me || !active || loadingMessages) return;
+  loadingMessages = true;
+
+  try {
+    const otherId = active.id;
+    const { data, error } = await db.from('messages')
+      .select('id,sender_id,recipient_id,message,created_at')
+      .or(
+        `and(sender_id.eq.${me.id},recipient_id.eq.${otherId}),and(sender_id.eq.${otherId},recipient_id.eq.${me.id})`
+      )
+      .order('created_at', { ascending: true })
+      .limit(500);
+
+    if (error) throw error;
+
+    if (active?.id === otherId) {
+      $('messages').replaceChildren();
+      (data || []).forEach(appendMessage);
+      $('messages').scrollTop = $('messages').scrollHeight;
+      msg('chatMsg','');
+    }
+  } catch (error) {
+    msg('chatMsg', safeError(error));
+  } finally {
+    loadingMessages = false;
+  }
+}
+
+function appendMessage(item) {
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble' + (item.sender_id === me.id ? ' mine' : '');
+  bubble.textContent = item.message || '';
+
+  const stamp = document.createElement('div');
+  stamp.className = 'stamp';
+  stamp.textContent = new Date(item.created_at).toLocaleTimeString('id-ID', {
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  bubble.appendChild(stamp);
+  $('messages').appendChild(bubble);
+}
+
+async function sendMessage(event) {
+  event.preventDefault();
+  if (!me || !active) return;
+
+  const text = $('body').value.trim();
+  if (!text) return;
+
+  $('sendBtn').disabled = true;
+  msg('chatMsg','Mengirim pesan...');
+
+  try {
+    const { error } = await db.from('messages').insert({
+      sender_id: me.id,
+      recipient_id: active.id,
+      message: text
+    });
+
+    if (error) throw error;
+
+    $('body').value = '';
+    msg('chatMsg','');
+    await loadMessages();
+  } catch (error) {
+    msg('chatMsg', safeError(error));
+  } finally {
+    $('sendBtn').disabled = false;
+  }
+}
+
+function subscribeMessages() {
+  if (channel) db.removeChannel(channel);
+
+  channel = db.channel('unme-messages-' + me.id)
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'messages'
+    }, payload => {
+      const row = payload.new || payload.old;
+      if (!row || !me) return;
+
+      if (row.sender_id === me.id || row.recipient_id === me.id) {
+        if (active &&
+            (row.sender_id === active.id || row.recipient_id === active.id)) {
+          loadMessages();
+        }
+        refreshUsers();
+      }
+    })
+    .subscribe();
+}
+
+function back() {
+  active = null;
+  show('home');
+  refreshUsers();
+}
+
+async function logout() {
+  if (channel) {
+    await db.removeChannel(channel);
+    channel = null;
+  }
+  const { error } = await db.auth.signOut();
+  if (error) msg('homeMsg', safeError(error));
+  me = null;
+  active = null;
+  users = [];
+  show('setup');
+}
+
+async function restoreSession() {
+  try {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+
+    if (data.session) {
+      me = data.session.user;
+      $('welcome').textContent = 'Halo, ' + (await getMyUsername()) + '!';
+      show('home');
+      await refreshUsers();
+      subscribeMessages();
+    }
+  } catch (error) {
+    show('setup');
+    msg('authMsg', safeError(error));
+  }
+}
+
+db.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT') {
+    me = null;
+    active = null;
+    show('setup');
+  }
+});
+
+restoreSession();
+</script>
+</body>
+</html>
